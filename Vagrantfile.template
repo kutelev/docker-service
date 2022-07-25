@@ -1,0 +1,35 @@
+# WARNING: If you want to force Vagrant to store its data at a custom location set `VAGRANT_HOME` environment variable.
+# An example `VAGRANT_HOME=E:\work\.vagrant.d`
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.define "docker-service"
+  config.vm.hostname = "docker-service"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  # IMPORTANT: In order to make shared folders working do the following:
+  # vagrant plugin install vagrant-vbguest
+  # BEGIN OF SYNCED FOLDERS
+  # END OF SYNCED FOLDERS
+  # IMPORTANT: `VAGRANT_EXPERIMENTAL` environment variable must be set to `disks` in order to make the following working:
+  config.vm.disk :disk, size: "100GB", primary: true # Make a storage big enough (enlarge, if required).
+
+  config.vm.provider :virtualbox do |vb|
+    vb.linked_clone = false
+    vb.name = "docker-service"
+    vb.customize [
+      "modifyvm", :id,
+      "--cpus", "{cpus}",
+      "--memory", "{memory}",
+    ]
+  end
+
+  # Configure/install software.
+  config.vm.provision :shell, path: "bootstrap.sh"
+  # Make Docker available from outside VM.
+  config.vm.network "forwarded_port", guest: 2375, host: 2375, host_ip: "127.0.0.1", id: "docker"
+  
+  # Enable password authentication.
+  config.vm.provision :shell, inline: <<-SHELL
+     sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+     systemctl restart sshd.service
+  SHELL
+end
