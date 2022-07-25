@@ -24,7 +24,7 @@ def inspect_container(container: str) -> List[int]:
                     ports_to_publish.add(int(port['HostPort']))
         return sorted(ports_to_publish)
     except (CalledProcessError, JSONDecodeError) as e:
-        print(f'Could not inspect container {container}, error: {str(e)}.')
+        # print(f'Could not inspect container {container}, error: {str(e)}.')
         return []
 
 
@@ -69,9 +69,6 @@ def iterate():
         print(f'Could not enumerate containers, error: {str(e)}.')
         return
     containers = [line.rstrip() for line in containers if len(line.rstrip()) > 0]
-    if not containers:
-        # print('No running containers have been detected.')
-        return
     # print(f'{len(containers)} running container(s) has/have been detected.')
 
     # print('Inspecting containers ...')
