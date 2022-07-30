@@ -16,6 +16,7 @@ def main() -> int:
     default_cpu_count = psutil.cpu_count(logical=False)
     total_memory_size = psutil.virtual_memory().total // 1024 // 1024
     default_memory_size = max(total_memory_size // 4, 16 * 1024)
+    default_disk_size = 100
 
     home_path = f'''{os.environ['HOMEDRIVE']}{os.environ['HOMEPATH']}'''.replace('\\\\', '\\')
     synced_folders = {home_path: convert_windows_path_to_linux_path(home_path)}
@@ -30,6 +31,10 @@ def main() -> int:
         help=f'Memory size in GiB to assign to VM to. Default: {default_memory_size}'
     )
     arg_parser.add_argument(
+        '--disk-size', type=int, required=False, default=default_disk_size,
+        help=f'Disk size in GB to assign to VM to. Default: {default_memory_size}'
+    )
+    arg_parser.add_argument(
         '--synced-folders', type=str, required=False, default=[], nargs='+',
         help='List of directories on the host system to share with VM, these directories can be later shared with Docker containers. '
              f'Home directory ({home_path}) is shared as "{synced_folders[home_path]}" by default. Example: --synced-folders E:\\projects Z:\\streams'
@@ -41,7 +46,7 @@ def main() -> int:
         vagrant_file = f.read()
 
     # Set CPU count and memory size.
-    vagrant_file = vagrant_file.format(cpus=args.cpus, memory=args.memory)
+    vagrant_file = vagrant_file.format(cpus=args.cpus, memory=args.memory, disk_size=args.disk_size)
 
     # Configure synced folders.
     vagrant_file = vagrant_file.rstrip().split('\n')

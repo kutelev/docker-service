@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   # BEGIN OF SYNCED FOLDERS
   # END OF SYNCED FOLDERS
   # IMPORTANT: `VAGRANT_EXPERIMENTAL` environment variable must be set to `disks` in order to make the following working:
-  config.vm.disk :disk, size: "100GB", primary: true # Make a storage big enough (enlarge, if required).
+  config.vm.disk :disk, size: "{disk_size}GB", primary: true # Make a storage big enough (enlarge, if required).
 
   config.vm.provider :virtualbox do |vb|
     vb.linked_clone = false
