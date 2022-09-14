@@ -13,13 +13,14 @@ This manual describes how Docker Linux containers can be run on Windows without 
 3. Install VirtualBox.
 4. Install Vagrant.
 5. Make sure that both VirtualBox and Vagrant are on `PATH`.
-6. Download `docker.exe` file from https://gitlab.com/kutelev/docker-cli-for-windows/-/jobs/artifacts/master/raw/docker.exe?job=build and put it to a location
+6. Make sure you have at least Python 3.6 installed with Python launcher (`py`).
+7. Download `docker.exe` file from https://gitlab.com/kutelev/docker-cli-for-windows/-/jobs/artifacts/master/raw/docker.exe?job=build and put it to a location
    which is on `PATH`.
-7. Download Docker Compose binary from https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Windows-x86_64.exe, rename it
+8. Download Docker Compose binary from https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Windows-x86_64.exe, rename it
    to `docker-compose.exe` and put it side by side with `docker.exe`.
-8. Set `DOCKER_HOST` environment variable to `tcp://127.0.0.1:2375`.
-9. Set `COMPOSE_CONVERT_WINDOWS_PATHS` environment variable to `1`. With this variable set `docker-compose` will automatically convert Windows paths to Linux
-   paths, for instance `E:\work\project` to `/e/work/project`.
+9. Set `DOCKER_HOST` environment variable to `tcp://127.0.0.1:2375`.
+10. Set `COMPOSE_CONVERT_WINDOWS_PATHS` environment variable to `1`. With this variable set `docker-compose` will automatically convert Windows paths to Linux
+    paths, for instance `E:\work\project` to `/e/work/project`.
 
 ## Recommended prerequisites
 
