@@ -32,7 +32,7 @@ def main() -> int:
     )
     arg_parser.add_argument(
         '--disk-size', type=int, required=False, default=default_disk_size,
-        help=f'Disk size in GB to assign to VM to. Default: {default_memory_size}'
+        help=f'Disk size in GB to assign to VM to. Default: {default_disk_size}'
     )
     arg_parser.add_argument(
         '--synced-folders', type=str, required=False, default=[], nargs='+',
