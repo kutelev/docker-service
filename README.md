@@ -56,7 +56,7 @@ This manual describes how Docker Linux containers can be run on Windows without 
 2. For instance, if you have `E:\work` shared with VM and want `E:\work\some_project` to be mounted to a container you need to
    add `-v /e/work/some_project:/some_directory` to a command line:
 
-```text
+```shell
 docker run --rm -it -v /e/work/some_project:/some_directory -w /some_directory ubuntu:20.04 bash
 ```
 
