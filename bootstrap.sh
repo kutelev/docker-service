@@ -11,7 +11,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 apt-get update
 apt-get install -y docker-ce docker-ce-cli containerd.io
-mkdir /etc/systemd/system/docker.service.d
+mkdir -p /etc/systemd/system/docker.service.d
 {
     echo "[Service]"
     echo "ExecStart="
@@ -23,3 +23,11 @@ systemctl restart docker
 
 # Allow vagrant user to use Docker CLI directly.
 usermod -aG docker vagrant
+
+# Make `perf` working.
+{
+    echo "sh -c 'echo 1 > /proc/sys/kernel/perf_event_paranoid'"
+    echo "sh -c 'echo 0 > /proc/sys/kernel/kptr_restrict'"
+} > /etc/rc.local
+chmod +x /etc/rc.local
+sh /etc/rc.local
